@@ -4,12 +4,16 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 
 import DeckListScreen from "./src/screens/DeckListScreen";
 import DeckScreen from "./src/screens/DeckScreen";
 import NewDeckScreen from "./src/screens/NewDeckScreen";
 import NewQuestionScreen from "./src/screens/NewQuestionScreen";
 import QuizScreen from "./src/screens/QuizScreen";
+import reducer from "./src/reducers";
+import middleware from "./src/middleware";
 
 // Stack Navigators
 const ListStack = createStackNavigator();
@@ -18,18 +22,9 @@ const ListStackNavigator = () => {
     <ListStack.Navigator>
       <ListStack.Screen name="Decks" component={DeckListScreen} />
       <ListStack.Screen name="Deck" component={DeckScreen} />
+      <ListStack.Screen name="New Question" component={NewQuestionScreen} />
       <ListStack.Screen name="Quiz" component={QuizScreen} />
     </ListStack.Navigator>
-  );
-};
-
-const NewStack = createStackNavigator();
-const NewStackNavigator = () => {
-  return (
-    <NewStack.Navigator>
-      <ListStack.Screen name="New Deck" component={NewDeckScreen} />
-      <ListStack.Screen name="New Question" component={NewQuestionScreen} />
-    </NewStack.Navigator>
   );
 };
 
@@ -50,20 +45,24 @@ const MainNavigator = () => {
   return (
     <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions}>
       <Tab.Screen name="Decks" component={ListStackNavigator} />
-      <Tab.Screen name="New Deck" component={NewStackNavigator} />
+      <Tab.Screen name="New Deck" component={NewDeckScreen} />
     </Tab.Navigator>
   );
 };
 
-export default function App() {
+const store = createStore(reducer, middleware);
+
+const App = () => {
   return (
-    <View style={{ flex: 1 }}>
-      <NavigationContainer>
-        <MainNavigator />
-      </NavigationContainer>
-    </View>
+    <Provider store={store}>
+      <View style={{ flex: 1 }}>
+        <NavigationContainer>
+          <MainNavigator />
+        </NavigationContainer>
+      </View>
+    </Provider>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -73,3 +72,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+export default App;
