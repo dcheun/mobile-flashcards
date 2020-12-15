@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  ScrollView,
   View,
   Text,
   StyleSheet,
@@ -46,40 +47,51 @@ const NewQuestionScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        label="Question"
-        onChangeText={setQValue}
-        value={qValue}
-        underlineColorAndroid="gray"
-        placeholder="Enter Question"
-      />
-      {qValueErr && <Text style={styles.error}>{qValueErr}</Text>}
-      <TextInput
-        style={styles.input}
-        label="Answer"
-        onChangeText={setAValue}
-        value={aValue}
-        underlineColorAndroid="gray"
-        placeholder="Enter Answer"
-      />
-      {aValueErr && <Text style={styles.error}>{aValueErr}</Text>}
+    <ScrollView
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="always"
+    >
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          label="Question"
+          onChangeText={setQValue}
+          value={qValue}
+          underlineColorAndroid="gray"
+          placeholder="Enter Question"
+        />
+        {qValueErr && <Text style={styles.error}>{qValueErr}</Text>}
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          label="Answer"
+          onChangeText={setAValue}
+          value={aValue}
+          underlineColorAndroid="gray"
+          placeholder="Enter Answer"
+        />
+        {aValueErr && <Text style={styles.error}>{aValueErr}</Text>}
+      </View>
       <TouchableOpacity onPress={submit} style={styles.submit}>
         <Text style={styles.submitText}>Submit</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
+    justifyContent: "space-evenly",
+    alignItems: "center",
     paddingLeft: 20,
     paddingRight: 20,
-    justifyContent: "center",
-    alignItems: "center",
     marginBottom: 150,
+  },
+  inputContainer: {
+    width: "100%",
+    marginBottom: 16,
   },
   input: {
     height: 60,
@@ -90,21 +102,18 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     borderRadius: 10,
-    marginBottom: 48,
   },
   error: {
     alignSelf: "flex-start",
     fontSize: 20,
     color: "red",
-    marginTop: -40,
-    marginBottom: 48,
   },
   submit: {
     borderRadius: 10,
     paddingLeft: 40,
     paddingRight: 40,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: 16,
+    paddingBottom: 16,
     backgroundColor: "black",
   },
   submitText: {

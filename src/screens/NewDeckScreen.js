@@ -1,61 +1,78 @@
 import React, { useState } from "react";
 import {
+  ScrollView,
   View,
   Text,
   TextInput,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveDeckTitleAction } from "../actions";
+import { red, white } from "../utils/colors";
 
 const NewDeckScreen = ({ navigation }) => {
   const [value, setValue] = useState("");
   const [inputError, setInputError] = useState(null);
 
   const dispatch = useDispatch();
+  const decks = useSelector((state) => state);
 
   const submit = () => {
     if (value === "") {
       setInputError("Deck Title is required");
+    } else if (value in decks) {
+      setInputError("Deck with that name already exists");
     } else {
       setInputError(null);
+      setValue("");
       dispatch(saveDeckTitleAction(value));
       navigation.navigate("Decks");
     }
   };
 
+  // Using a ScrollView to make landscape mode a little more useful
+  // in case the contents goes off screen.
+  // keyboardShouldPersistTaps is needed to fire submit button when
+  // keyboard is still in focus.
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>What is the title of your new deck?</Text>
-      <TextInput
-        style={styles.input}
-        label="Title"
-        onChangeText={setValue}
-        value={value}
-        underlineColorAndroid="gray"
-        placeholder="Deck Title"
-      />
-      {inputError && <Text style={styles.error}>{inputError}</Text>}
+    <ScrollView
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="always"
+    >
+      <Text style={styles.heading}>What is the title of your new deck?</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          label="Title"
+          onChangeText={setValue}
+          value={value}
+          underlineColorAndroid="gray"
+          placeholder="Deck Title"
+        />
+        {inputError && <Text style={styles.error}>{inputError}</Text>}
+      </View>
       <TouchableOpacity onPress={submit} style={styles.submit}>
         <Text style={styles.submitText}>Submit</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
+    justifyContent: "space-evenly",
+    alignItems: "center",
     paddingLeft: 20,
     paddingRight: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 150,
+    paddingBottom: 48,
   },
-  title: {
+  inputContainer: {
+    width: "100%",
+  },
+  heading: {
     fontSize: 48,
-    marginBottom: 48,
     textAlign: "center",
   },
   input: {
@@ -67,25 +84,22 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     borderRadius: 10,
-    marginBottom: 48,
   },
   error: {
     alignSelf: "flex-start",
     fontSize: 20,
-    color: "red",
-    marginTop: -40,
-    marginBottom: 48,
+    color: red,
   },
   submit: {
     borderRadius: 10,
     paddingLeft: 40,
     paddingRight: 40,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: 16,
+    paddingBottom: 16,
     backgroundColor: "black",
   },
   submitText: {
-    color: "white",
+    color: white,
     fontSize: 25,
   },
 });
