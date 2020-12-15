@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -17,6 +17,7 @@ import QuizScreen from "./src/screens/QuizScreen";
 import reducer from "./src/reducers";
 import middleware from "./src/middleware";
 import { purple, white } from "./src/utils/colors";
+import { setLocalNotification } from "./src/utils/helpers";
 
 // Status Bar
 function UdaciStatusBar({ backgroundColor, ...props }) {
@@ -36,7 +37,14 @@ function UdaciStatusBar({ backgroundColor, ...props }) {
 const Stack = createStackNavigator();
 const StackNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTintColor: Platform.OS === "ios" ? purple : white,
+        headerStyle: {
+          backgroundColor: Platform.OS === "ios" ? white : purple,
+        },
+      }}
+    >
       <Stack.Screen
         name="Decks"
         component={DeckListScreen}
@@ -75,13 +83,6 @@ const tabBarOptions = {
   style: {
     height: 56,
     backgroundColor: Platform.OS === "ios" ? white : purple,
-    // shadowColor: "rgba(0,0,0,0.24)",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 3,
-    // },
-    // shadowRadius: 6,
-    // shadowOpacity: 1,
   },
   keyboardHidesTabBar: true,
 };
@@ -98,6 +99,10 @@ const MainNavigator = () => {
 const store = createStore(reducer, middleware);
 
 const App = () => {
+  useEffect(() => {
+    setLocalNotification();
+  }, []);
+
   return (
     <Provider store={store}>
       <View style={styles.container}>
@@ -113,9 +118,6 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#fff",
-    // alignItems: "center",
-    // justifyContent: "center",
   },
 });
 

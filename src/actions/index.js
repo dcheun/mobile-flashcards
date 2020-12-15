@@ -1,5 +1,10 @@
-import { RECEIVE_DECKS, ADD_CARD_TO_DECK, SAVE_DECK_TITLE } from "../constants";
-import { getDecks, addCardToDeck, saveDeckTitle } from "../apis";
+import {
+  RECEIVE_DECKS,
+  ADD_CARD_TO_DECK,
+  SAVE_DECK_TITLE,
+  REMOVE_DECK,
+} from "../constants";
+import { getDecks, addCardToDeck, saveDeckTitle, removeDeck } from "../apis";
 
 const receiveDecks = (decks) => {
   return {
@@ -39,5 +44,17 @@ export const saveDeckTitleAction = (title) => async (dispatch) => {
     });
   } catch (err) {
     console.log("Failed to dispatch saveDeckTitleAction: ", err);
+  }
+};
+
+export const removeDeckAction = (title) => async (dispatch) => {
+  try {
+    await removeDeck(title);
+    dispatch({
+      type: REMOVE_DECK,
+      title,
+    });
+  } catch (err) {
+    console.log("Failed to dispatch removeDeckAction: ", err);
   }
 };

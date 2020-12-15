@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useSelector } from "react-redux";
-import { red, white } from "../utils/colors";
+import { green, red, white } from "../utils/colors";
 import Score from "../components/Score";
+import { clearLocalNotification, setLocalNotification } from "../utils/helpers";
 
 const QuizScreen = ({ route }) => {
   const [side, setSide] = useState("question");
@@ -24,13 +25,10 @@ const QuizScreen = ({ route }) => {
     setSide(side === "question" ? "answer" : "question");
   };
 
-  const handleCorrect = () => {
-    setScore((prev) => prev + 1);
-    setSide("question");
-    setNextCard();
-  };
-
-  const handleIncorrect = () => {
+  const handleOnAnswer = (correct) => {
+    if (correct) {
+      setScore((prev) => prev + 1);
+    }
     setSide("question");
     setNextCard();
   };
@@ -38,6 +36,8 @@ const QuizScreen = ({ route }) => {
   const setNextCard = () => {
     if (idx + 1 >= questions.length) {
       setComplete(true);
+      // Clear local notification and set up a new one for tomorrow.
+      clearLocalNotification().then(setLocalNotification);
       return;
     }
     setIdx(idx + 1);
@@ -49,14 +49,6 @@ const QuizScreen = ({ route }) => {
     setScore(0);
     setComplete(false);
   };
-
-  if (questions.length === 0) {
-    return (
-      <View>
-        <Text>Please add some cards.</Text>
-      </View>
-    );
-  }
 
   if (complete) {
     return (
@@ -83,13 +75,13 @@ const QuizScreen = ({ route }) => {
         <View style={styles.btnContainer}>
           <TouchableOpacity
             style={[styles.btn, styles.correctBtn]}
-            onPress={handleCorrect}
+            onPress={() => handleOnAnswer(true)}
           >
             <Text style={styles.btnText}>Correct</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.btn, styles.incorrectBtn]}
-            onPress={handleIncorrect}
+            onPress={() => handleOnAnswer(false)}
           >
             <Text style={styles.btnText}>Incorrect</Text>
           </TouchableOpacity>
@@ -144,7 +136,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   correctBtn: {
-    backgroundColor: "green",
+    backgroundColor: green,
   },
   incorrectBtn: {
     backgroundColor: red,

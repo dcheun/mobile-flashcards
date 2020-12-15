@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { gray } from "../utils/colors";
 
 const Deck = ({ deck }) => {
   return (
@@ -19,8 +20,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 30,
     borderBottomWidth: 1,
-    borderBottomColor: "gray",
-    // alignSelf: "center",
+    borderBottomColor: gray,
     width: "100%",
     alignItems: "center",
   },
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   subheading: {
     fontSize: 26,
-    color: "gray",
+    color: gray,
   },
 });
 

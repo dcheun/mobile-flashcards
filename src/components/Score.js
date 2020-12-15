@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { white } from "../utils/colors";
+import { blue, gray, white } from "../utils/colors";
 
 const Score = ({ numCorrect, numTotal, resetHandler }) => {
   const calculateScore = () => {
@@ -30,7 +30,7 @@ const Score = ({ numCorrect, numTotal, resetHandler }) => {
             styles.statContainer,
             {
               borderRightWidth: 1,
-              borderRightColor: "gray",
+              borderRightColor: gray,
             },
           ]}
         >
@@ -101,11 +101,11 @@ const styles = StyleSheet.create({
   },
   statNum: {
     fontSize: 36,
-    color: "blue",
+    color: blue,
   },
   statText: {
     fontSize: 20,
-    color: "gray",
+    color: gray,
   },
   btn: {
     width: "75%",
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
     alignItems: "center",
-    backgroundColor: "blue",
+    backgroundColor: blue,
   },
   btnText: {
     fontSize: 25,

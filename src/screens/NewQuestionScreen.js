@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { addCardToDeckAction } from "../actions";
+import { black, gray, red, white } from "../utils/colors";
 
 const NewQuestionScreen = ({ navigation, route }) => {
   const [qValue, setQValue] = useState("");
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
     height: 60,
     width: "100%",
     fontSize: 20,
-    borderColor: "gray",
+    borderColor: gray,
     borderWidth: 1,
     paddingLeft: 10,
     paddingRight: 10,
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
   error: {
     alignSelf: "flex-start",
     fontSize: 20,
-    color: "red",
+    color: red,
   },
   submit: {
     borderRadius: 10,
@@ -114,10 +115,10 @@ const styles = StyleSheet.create({
     paddingRight: 40,
     paddingTop: 16,
     paddingBottom: 16,
-    backgroundColor: "black",
+    backgroundColor: black,
   },
   submitText: {
-    color: "white",
+    color: white,
     fontSize: 25,
   },
 });

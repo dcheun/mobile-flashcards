@@ -6,7 +6,9 @@ export const removeDecks = async () => {
   try {
     await AsyncStorage.removeItem(DECKS_STORAGE_KEY);
   } catch (err) {
-    console.log(err);
+    const msg = `Failed to remove decks from storage`;
+    alert(msg);
+    console.log(msg, err);
   }
 };
 
@@ -66,6 +68,18 @@ export const addCardToDeck = async (title, card) => {
     );
   } catch (err) {
     const msg = "Failed to add card to deck";
+    alert(msg);
+    console.log(msg, err);
+  }
+};
+
+export const removeDeck = async (id) => {
+  try {
+    const data = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+    const { [id]: value, ...newData } = JSON.parse(data);
+    await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(newData));
+  } catch (err) {
+    const msg = `Failed to remove deck ${id} from storage`;
     alert(msg);
     console.log(msg, err);
   }

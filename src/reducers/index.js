@@ -1,4 +1,9 @@
-import { RECEIVE_DECKS, ADD_CARD_TO_DECK, SAVE_DECK_TITLE } from "../constants";
+import {
+  RECEIVE_DECKS,
+  ADD_CARD_TO_DECK,
+  SAVE_DECK_TITLE,
+  REMOVE_DECK,
+} from "../constants";
 
 const decks = (state = {}, action) => {
   switch (action.type) {
@@ -24,6 +29,9 @@ const decks = (state = {}, action) => {
           questions: [],
         },
       };
+    case REMOVE_DECK:
+      const { [action.title]: value, ...newState } = state;
+      return newState;
     default:
       return state;
   }

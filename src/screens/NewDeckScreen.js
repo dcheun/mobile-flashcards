@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { saveDeckTitleAction } from "../actions";
-import { red, white } from "../utils/colors";
+import { black, gray, red, white } from "../utils/colors";
 
 const NewDeckScreen = ({ navigation }) => {
   const [value, setValue] = useState("");
@@ -18,21 +18,21 @@ const NewDeckScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const decks = useSelector((state) => state);
 
-  const submit = () => {
+  const submit = async () => {
     if (value === "") {
       setInputError("Deck Title is required");
     } else if (value in decks) {
       setInputError("Deck with that name already exists");
     } else {
+      await dispatch(saveDeckTitleAction(value));
       setInputError(null);
       setValue("");
-      dispatch(saveDeckTitleAction(value));
-      navigation.navigate("Decks");
+      navigation.navigate("Deck", { deckId: value });
     }
   };
 
   // Using a ScrollView to make landscape mode a little more useful
-  // in case the contents goes off screen.
+  // and/or in case the contents goes off screen.
   // keyboardShouldPersistTaps is needed to fire submit button when
   // keyboard is still in focus.
   return (
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     height: 60,
     width: "100%",
     fontSize: 20,
-    borderColor: "gray",
+    borderColor: gray,
     borderWidth: 1,
     paddingLeft: 10,
     paddingRight: 10,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     paddingRight: 40,
     paddingTop: 16,
     paddingBottom: 16,
-    backgroundColor: "black",
+    backgroundColor: black,
   },
   submitText: {
     color: white,

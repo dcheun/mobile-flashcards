@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useSelector } from "react-redux";
+import { black, gray, white } from "../utils/colors";
 
 const DeckScreen = ({ navigation, route }) => {
   const { deckId } = route.params;
@@ -47,7 +48,7 @@ const DeckScreen = ({ navigation, route }) => {
           style={[styles.btn, styles.quizBtn]}
           onPress={handleOnPress}
         >
-          <Text style={[styles.btnText, { color: "white" }]}>Start Quiz</Text>
+          <Text style={[styles.btnText, { color: white }]}>Start Quiz</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
   },
   subheading: {
     fontSize: 30,
-    color: "gray",
+    color: gray,
     textAlign: "center",
   },
   btn: {
@@ -85,16 +86,16 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: black,
     alignItems: "center",
   },
   addBtn: {
     borderWidth: 2,
-    borderColor: "black",
+    borderColor: black,
     marginBottom: 16,
   },
   quizBtn: {
-    backgroundColor: "black",
+    backgroundColor: black,
   },
   btnText: {
     fontSize: 25,
