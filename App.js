@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Platform } from "react-native";
+import { StyleSheet, View, Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -8,7 +8,6 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import Constants from "expo-constants";
 import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
-
 import DeckListScreen from "./src/screens/DeckListScreen";
 import DeckScreen from "./src/screens/DeckScreen";
 import NewDeckScreen from "./src/screens/NewDeckScreen";
